@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -10,22 +10,22 @@ using PeerReviewApp.Models;
 
 namespace PeerReviewApp.Controllers
 {
-    public class GroupController : Controller
+    public class GradesController : Controller
     {
         private readonly ApplicationDbContext _context;
 
-        public GroupController(ApplicationDbContext context)
+        public GradesController(ApplicationDbContext context)
         {
             _context = context;
         }
 
-        // GET: Group
+        // GET: Grades
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Group.ToListAsync());
+            return View(await _context.Grade.ToListAsync());
         }
 
-        // GET: Group/Details/5
+        // GET: Grades/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -33,39 +33,39 @@ namespace PeerReviewApp.Controllers
                 return NotFound();
             }
 
-            var @group = await _context.Group
+            var grade = await _context.Grade
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (@group == null)
+            if (grade == null)
             {
                 return NotFound();
             }
 
-            return View(@group);
+            return View(grade);
         }
 
-        // GET: Group/Create
+        // GET: Grades/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: Group/Create
+        // POST: Grades/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name,CourseId")] Group @group)
+        public async Task<IActionResult> Create([Bind("Id,Value")] Grade grade)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(@group);
+                _context.Add(grade);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(@group);
+            return View(grade);
         }
 
-        // GET: Group/Edit/5
+        // GET: Grades/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -73,22 +73,22 @@ namespace PeerReviewApp.Controllers
                 return NotFound();
             }
 
-            var @group = await _context.Group.FindAsync(id);
-            if (@group == null)
+            var grade = await _context.Grade.FindAsync(id);
+            if (grade == null)
             {
                 return NotFound();
             }
-            return View(@group);
+            return View(grade);
         }
 
-        // POST: Group/Edit/5
+        // POST: Grades/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,CourseId")] Group @group)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Value")] Grade grade)
         {
-            if (id != @group.Id)
+            if (id != grade.Id)
             {
                 return NotFound();
             }
@@ -97,12 +97,12 @@ namespace PeerReviewApp.Controllers
             {
                 try
                 {
-                    _context.Update(@group);
+                    _context.Update(grade);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!GroupExists(@group.Id))
+                    if (!GradeExists(grade.Id))
                     {
                         return NotFound();
                     }
@@ -113,10 +113,10 @@ namespace PeerReviewApp.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(@group);
+            return View(grade);
         }
 
-        // GET: Group/Delete/5
+        // GET: Grades/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -124,34 +124,34 @@ namespace PeerReviewApp.Controllers
                 return NotFound();
             }
 
-            var @group = await _context.Group
+            var grade = await _context.Grade
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (@group == null)
+            if (grade == null)
             {
                 return NotFound();
             }
 
-            return View(@group);
+            return View(grade);
         }
 
-        // POST: Group/Delete/5
+        // POST: Grades/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var @group = await _context.Group.FindAsync(id);
-            if (@group != null)
+            var grade = await _context.Grade.FindAsync(id);
+            if (grade != null)
             {
-                _context.Group.Remove(@group);
+                _context.Grade.Remove(grade);
             }
 
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool GroupExists(int id)
+        private bool GradeExists(int id)
         {
-            return _context.Group.Any(e => e.Id == id);
+            return _context.Grade.Any(e => e.Id == id);
         }
     }
 }

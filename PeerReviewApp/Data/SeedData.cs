@@ -51,19 +51,19 @@ public class SeedData
                     new Course
                     {
                         Name = "CS 246: System Design",
-                        InstructorId = user.Id,
+                        Instructor = user,
                         Term = "Winter 2025"
                     },
                     new Course
                     {
                         Name = "CS 233: Programming Concepts",
-                        InstructorId = user.Id,
+                        Instructor = user,
                         Term = "Spring 2025"
                     },
                       new Course
                       {
                           Name = "CS 275: Database Managment",
-                          InstructorId = user.Id,
+                          Instructor = user,
                           Term = "Spring 2025"
                       }
                 );
@@ -81,18 +81,143 @@ public class SeedData
                 context.Document.AddRange(
                     new Document
                     {
-                        UploaderId = user.Id,
+                        Uploader = user,
                         FilePath = "/uploads/syllabus.pdf"
                     },
                     new Document
                     {
-                        UploaderId = user.Id,
+                        Uploader = user,
                         FilePath = "/uploads/lecture_notes.docx"
                     },
                     new Document
                     {
-                        UploaderId = user.Id,
+                        Uploader = user,
                         FilePath = "/uploads/assignmentInstruction.pdf"
+                    }
+                );
+                context.SaveChanges();
+            }
+        }
+
+        // Seed Assignments
+        if (!context.Assignments.Any())
+        {
+            var user = await userManager.Users.FirstOrDefaultAsync();
+
+            if (user != null)
+            {
+                context.Assignments.AddRange(
+                    new Assignment
+                    {
+                        Course = context.Courses.FindAsync(1).Result,
+                        DueDate = DateTime.Parse("11/21/2024"),
+                        Title = "Lab 1",
+                        Description = "Make a Project",
+                        FilePath = "/uploads/assignmentInstruction.pdf"
+
+                    },
+                    new Assignment
+                    {
+                        Course = context.Courses.FindAsync(1).Result,
+                        DueDate = DateTime.Parse("11/28/2024"),
+                        Title = "Lab 2",
+                        Description = "Make a Project Again",
+                        FilePath = "/uploads/assignmentInstruction2.pdf"
+
+                    },
+                    new Assignment
+                    {
+                        Course = context.Courses.FindAsync(1).Result,
+                        DueDate = DateTime.Parse("12/05/2024"),
+                        Title = "Lab 1",
+                        Description = "Make a Third Project",
+                        FilePath = "/uploads/assignmentInstruction3.pdf"
+
+                    }
+                );
+                context.SaveChanges();
+            }
+        }
+
+        // Seed Grades
+        if (!context.Grade.Any())
+        {
+            var user = await userManager.Users.FirstOrDefaultAsync();
+
+            if (user != null)
+            {
+                context.Grade.AddRange(
+                    new Grade
+                    {
+                        Student = user,
+                        Assignment = context.Assignments.Find(1),
+                        Value = 94
+
+                    },
+                    new Grade
+                    {
+                        Student = user,
+                        Assignment = context.Assignments.Find(2),
+                        Value = 81
+
+                    },
+                    new Grade
+                    {
+                        Student = user,
+                        Assignment = context.Assignments.Find(3),
+                        Value = 54
+
+                    }
+                );
+                context.SaveChanges();
+            }
+        }
+
+        // Seed Group
+        if (!context.Group.Any())
+        {
+                context.Group.AddRange(
+                    new Group
+                    {
+                        Name = "Group 1",
+                        Course = context.Courses.FirstOrDefaultAsync().Result
+                    },
+                    new Group
+                    {
+                        Name = "Group 2",
+                        Course = context.Courses.FirstOrDefaultAsync().Result
+                    },
+                    new Group
+                    {
+                        Name = "Group 3",
+                        Course = context.Courses.FirstOrDefaultAsync().Result
+                    }
+                );
+                context.SaveChanges();
+        }
+
+        // Seed GroupMembers
+        if (!context.GroupMembers.Any())
+        {
+            var user = await userManager.Users.FirstOrDefaultAsync();
+
+            if (user != null)
+            {
+                context.GroupMembers.AddRange(
+                    new GroupMembers
+                    {
+                        Group = context.Group.FindAsync(1).Result,
+                        Member = user
+                    },
+                    new GroupMembers
+                    {
+                        Group = context.Group.FindAsync(2).Result,
+                        Member = user
+                    },
+                    new GroupMembers
+                    {
+                        Group = context.Group.FindAsync(3).Result,
+                        Member = user
                     }
                 );
                 context.SaveChanges();

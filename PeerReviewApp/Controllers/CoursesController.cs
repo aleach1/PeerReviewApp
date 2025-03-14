@@ -22,8 +22,7 @@ namespace PeerReviewApp.Controllers
         // GET: Courses
         public async Task<IActionResult> Index()
         {
-            var applicationDbContext = _context.Courses.Include(c => c.Instructor);
-            return View(await applicationDbContext.ToListAsync());
+            return View(await _context.Courses.ToListAsync());
         }
 
         // GET: Courses/Details/5
@@ -35,7 +34,6 @@ namespace PeerReviewApp.Controllers
             }
 
             var course = await _context.Courses
-                .Include(c => c.Instructor)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (course == null)
             {
@@ -48,7 +46,6 @@ namespace PeerReviewApp.Controllers
         // GET: Courses/Create
         public IActionResult Create()
         {
-            ViewData["InstructorId"] = new SelectList(_context.Users, "Id", "Id");
             return View();
         }
 
@@ -57,7 +54,7 @@ namespace PeerReviewApp.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name,InstructorId,Term")] Course course)
+        public async Task<IActionResult> Create([Bind("Id,Name,Term")] Course course)
         {
             if (ModelState.IsValid)
             {
@@ -65,7 +62,6 @@ namespace PeerReviewApp.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["InstructorId"] = new SelectList(_context.Users, "Id", "Id", course.InstructorId);
             return View(course);
         }
 
@@ -82,7 +78,6 @@ namespace PeerReviewApp.Controllers
             {
                 return NotFound();
             }
-            ViewData["InstructorId"] = new SelectList(_context.Users, "Id", "Id", course.InstructorId);
             return View(course);
         }
 
@@ -91,7 +86,7 @@ namespace PeerReviewApp.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,InstructorId,Term")] Course course)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Term")] Course course)
         {
             if (id != course.Id)
             {
@@ -118,7 +113,6 @@ namespace PeerReviewApp.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["InstructorId"] = new SelectList(_context.Users, "Id", "Id", course.InstructorId);
             return View(course);
         }
 
@@ -131,7 +125,6 @@ namespace PeerReviewApp.Controllers
             }
 
             var course = await _context.Courses
-                .Include(c => c.Instructor)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (course == null)
             {

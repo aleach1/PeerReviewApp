@@ -1,4 +1,4 @@
-using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
@@ -8,12 +8,12 @@ namespace PeerReviewApp.Controllers;
 
 public class AppUserController : Controller
 {
-    private readonly UserManager<AppUser> _userManager; 
+    private readonly UserManager<AppUser> _userManager;
     private readonly SignInManager<AppUser> _signInManager;
 
     public AppUserController(UserManager<AppUser> userMngr, SignInManager<AppUser> signInMngr)
     {
-        _userManager = userMngr; _signInManager = signInMngr; 
+        _userManager = userMngr; _signInManager = signInMngr;
     }
 
     // GET

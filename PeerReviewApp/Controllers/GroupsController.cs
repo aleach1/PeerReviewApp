@@ -10,22 +10,22 @@ using PeerReviewApp.Models;
 
 namespace PeerReviewApp.Controllers
 {
-    public class DocumentsController : Controller
+    public class GroupsController : Controller
     {
         private readonly ApplicationDbContext _context;
 
-        public DocumentsController(ApplicationDbContext context)
+        public GroupsController(ApplicationDbContext context)
         {
             _context = context;
         }
 
-        // GET: Documents
+        // GET: Groups
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Document.ToListAsync());
+            return View(await _context.Group.ToListAsync());
         }
 
-        // GET: Documents/Details/5
+        // GET: Groups/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -33,39 +33,39 @@ namespace PeerReviewApp.Controllers
                 return NotFound();
             }
 
-            var document = await _context.Document
-                .FirstOrDefaultAsync(m => m.DocumentId == id);
-            if (document == null)
+            var @group = await _context.Group
+                .FirstOrDefaultAsync(m => m.Id == id);
+            if (@group == null)
             {
                 return NotFound();
             }
 
-            return View(document);
+            return View(@group);
         }
 
-        // GET: Documents/Create
+        // GET: Groups/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: Documents/Create
+        // POST: Groups/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("DocumentId,FilePath")] Document document)
+        public async Task<IActionResult> Create([Bind("Id,Name")] Group @group)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(document);
+                _context.Add(@group);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(document);
+            return View(@group);
         }
 
-        // GET: Documents/Edit/5
+        // GET: Groups/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -73,22 +73,22 @@ namespace PeerReviewApp.Controllers
                 return NotFound();
             }
 
-            var document = await _context.Document.FindAsync(id);
-            if (document == null)
+            var @group = await _context.Group.FindAsync(id);
+            if (@group == null)
             {
                 return NotFound();
             }
-            return View(document);
+            return View(@group);
         }
 
-        // POST: Documents/Edit/5
+        // POST: Groups/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("DocumentId,FilePath")] Document document)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Name")] Group @group)
         {
-            if (id != document.DocumentId)
+            if (id != @group.Id)
             {
                 return NotFound();
             }
@@ -97,12 +97,12 @@ namespace PeerReviewApp.Controllers
             {
                 try
                 {
-                    _context.Update(document);
+                    _context.Update(@group);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!DocumentExists(document.DocumentId))
+                    if (!GroupExists(@group.Id))
                     {
                         return NotFound();
                     }
@@ -113,10 +113,10 @@ namespace PeerReviewApp.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(document);
+            return View(@group);
         }
 
-        // GET: Documents/Delete/5
+        // GET: Groups/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -124,34 +124,34 @@ namespace PeerReviewApp.Controllers
                 return NotFound();
             }
 
-            var document = await _context.Document
-                .FirstOrDefaultAsync(m => m.DocumentId == id);
-            if (document == null)
+            var @group = await _context.Group
+                .FirstOrDefaultAsync(m => m.Id == id);
+            if (@group == null)
             {
                 return NotFound();
             }
 
-            return View(document);
+            return View(@group);
         }
 
-        // POST: Documents/Delete/5
+        // POST: Groups/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var document = await _context.Document.FindAsync(id);
-            if (document != null)
+            var @group = await _context.Group.FindAsync(id);
+            if (@group != null)
             {
-                _context.Document.Remove(document);
+                _context.Group.Remove(@group);
             }
 
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool DocumentExists(int id)
+        private bool GroupExists(int id)
         {
-            return _context.Document.Any(e => e.DocumentId == id);
+            return _context.Group.Any(e => e.Id == id);
         }
     }
 }

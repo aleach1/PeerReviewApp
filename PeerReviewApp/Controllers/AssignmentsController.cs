@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -10,22 +10,22 @@ using PeerReviewApp.Models;
 
 namespace PeerReviewApp.Controllers
 {
-    public class GradeController : Controller
+    public class AssignmentsController : Controller
     {
         private readonly ApplicationDbContext _context;
 
-        public GradeController(ApplicationDbContext context)
+        public AssignmentsController(ApplicationDbContext context)
         {
             _context = context;
         }
 
-        // GET: Grade
+        // GET: Assignments
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Grade.ToListAsync());
+            return View(await _context.Assignments.ToListAsync());
         }
 
-        // GET: Grade/Details/5
+        // GET: Assignments/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -33,39 +33,39 @@ namespace PeerReviewApp.Controllers
                 return NotFound();
             }
 
-            var grade = await _context.Grade
+            var assignment = await _context.Assignments
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (grade == null)
+            if (assignment == null)
             {
                 return NotFound();
             }
 
-            return View(grade);
+            return View(assignment);
         }
 
-        // GET: Grade/Create
+        // GET: Assignments/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: Grade/Create
+        // POST: Assignments/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,AssignmentId,Value")] Grade grade)
+        public async Task<IActionResult> Create([Bind("Id,DueDate,Title,Description,FilePath")] Assignment assignment)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(grade);
+                _context.Add(assignment);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(grade);
+            return View(assignment);
         }
 
-        // GET: Grade/Edit/5
+        // GET: Assignments/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -73,22 +73,22 @@ namespace PeerReviewApp.Controllers
                 return NotFound();
             }
 
-            var grade = await _context.Grade.FindAsync(id);
-            if (grade == null)
+            var assignment = await _context.Assignments.FindAsync(id);
+            if (assignment == null)
             {
                 return NotFound();
             }
-            return View(grade);
+            return View(assignment);
         }
 
-        // POST: Grade/Edit/5
+        // POST: Assignments/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,AssignmentId,Value")] Grade grade)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,DueDate,Title,Description,FilePath")] Assignment assignment)
         {
-            if (id != grade.Id)
+            if (id != assignment.Id)
             {
                 return NotFound();
             }
@@ -97,12 +97,12 @@ namespace PeerReviewApp.Controllers
             {
                 try
                 {
-                    _context.Update(grade);
+                    _context.Update(assignment);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!GradeExists(grade.Id))
+                    if (!AssignmentExists(assignment.Id))
                     {
                         return NotFound();
                     }
@@ -113,10 +113,10 @@ namespace PeerReviewApp.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(grade);
+            return View(assignment);
         }
 
-        // GET: Grade/Delete/5
+        // GET: Assignments/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -124,34 +124,34 @@ namespace PeerReviewApp.Controllers
                 return NotFound();
             }
 
-            var grade = await _context.Grade
+            var assignment = await _context.Assignments
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (grade == null)
+            if (assignment == null)
             {
                 return NotFound();
             }
 
-            return View(grade);
+            return View(assignment);
         }
 
-        // POST: Grade/Delete/5
+        // POST: Assignments/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var grade = await _context.Grade.FindAsync(id);
-            if (grade != null)
+            var assignment = await _context.Assignments.FindAsync(id);
+            if (assignment != null)
             {
-                _context.Grade.Remove(grade);
+                _context.Assignments.Remove(assignment);
             }
 
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool GradeExists(int id)
+        private bool AssignmentExists(int id)
         {
-            return _context.Grade.Any(e => e.Id == id);
+            return _context.Assignments.Any(e => e.Id == id);
         }
     }
 }

@@ -1,4 +1,4 @@
-@model PeerReviewApp.Models.Grade
+﻿@model PeerReviewApp.Models.Grade
 
 @{
     ViewData["Title"] = "Edit";
@@ -13,11 +13,6 @@
         <form asp-action="Edit">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="Id" />
-            <div class="form-group">
-                <label asp-for="AssignmentId" class="control-label"></label>
-                <input asp-for="AssignmentId" class="form-control" />
-                <span asp-validation-for="AssignmentId" class="text-danger"></span>
-            </div>
             <div class="form-group">
                 <label asp-for="Value" class="control-label"></label>
                 <input asp-for="Value" class="form-control" />
@@ -34,3 +29,6 @@
     <a asp-action="Index">Back to List</a>
 </div>
 
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

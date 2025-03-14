@@ -27,16 +27,7 @@ public class ApplicationDbContext : IdentityDbContext<AppUser>
         base.OnModelCreating(modelBuilder);
 
         // Configure Course relationships
-        modelBuilder.Entity<Course>()
-            .HasOne(c => c.Instructor)
-            .WithMany()
-            .HasForeignKey(c => c.InstructorId)
-            .OnDelete(DeleteBehavior.Restrict);
 
         // Configure many-to-many relationship between Course and Student
-        modelBuilder.Entity<Course>()
-            .HasMany(c => c.Students)
-            .WithMany()
-            .UsingEntity(j => j.ToTable("CourseStudent"));
     }
 }

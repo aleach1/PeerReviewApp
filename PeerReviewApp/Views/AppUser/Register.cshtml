@@ -1,4 +1,4 @@
-@model PeerReviewApp.Models.RegisterVm
+﻿@model PeerReviewApp.Models.RegisterVm
 @{
     ViewData["Title"] = "Register";
 }
@@ -8,7 +8,7 @@
         <div class="form-group row registerInput mb-3">
             <div class="col-4"><label>Email:</label></div>
             <div class="col-8 flex-grow-1">
-                <input asp-for="Email" class="form-control"/>
+                <input asp-for="Email" class="form-control" />
             </div>
         </div>
         <div class="form-group row registerInput mb-3">
@@ -26,13 +26,13 @@
         <div class="form-group row registerInput mb-3">
             <div class="col-4"><label>Confirm Password:</label></div>
             <div class="col-8 flex-grow-1">
-                <input type="password" asp-for="ConfirmPassword" class="form-control"/>
+                <input type="password" asp-for="ConfirmPassword" class="form-control" />
             </div>
         </div>
         <div class="form-group row registerInput mb-3">
             <div class="col-4"><label>Instructor Code:</label></div>
             <div class="col-8 flex-grow-1">
-                <input asp-for="InstructorCode" value="" class="form-control" placeholder="Leave blank if student"/>
+                <input asp-for="InstructorCode" value="" class="form-control" placeholder="Leave blank if student" />
             </div>
         </div>
 
